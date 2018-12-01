@@ -9,15 +9,15 @@
 
 			$errors = [];
 			$missing = [];
-		    $expected = ['uuid', 'username', 'profession','dob', 'age', 'image'];
-		    $required = ['uuid', 'username', 'profession','dob', 'age', 'image'];
+		    $expected = ['uuid', 'username', 'profession','dob', 'age', 'img'];
+		    $required = ['uuid', 'username', 'profession','dob', 'age', 'img'];
 
 			  
 	    // ---------------------------------------------------------------------------------------------------------------
 
-	if (isset($_POST['name'])){
+	if (isset($_POST['uuid']) && isset($_POST['username']) && isset($_POST['profession']) && isset($_POST['dob']) && isset($_POST['age'])){
 
-			// echo "hello";
+
 			$servername ="localhost";//servername
 			$username="newuser";//db_username
 			$password=123;//db_password
@@ -39,18 +39,15 @@
 		    } elseif (in_array($key, $expected)) {
 		        $$key = $value;
 		        // if()
-		        	$phone = $_POST['phone'];
-			        $location = $_POST['location'];
-					$bio = $_POST['bio'];
-			        $name = $_POST['name'];
 		        	$uuid = $_POST['uuid'];
-					$btaddress = $_POST['btaddress'];
+			        $username = $_POST['username'];
+					$profession = $_POST['profession'];
 					$dob = $_POST['dob'];
-					$sex = $_POST['sex'];
+					$age = $_POST['age'];
 					$image = $_POST['image'];
 					
 
-					if(empty($phone) ||empty($location) || empty($bio) || empty($name) || empty($uuid) || empty($btaddress) || empty($dob) || empty($sex) || empty($image)) {
+					if(empty($uuid) ||empty($username) || empty($profession) || empty($dob) || empty($age) || empty($image)){
 						http_response_code(400);
    						 // tell the user
    						 echo json_encode(array("message" => "Unable to create user. Contains Missing Fields."));
@@ -58,7 +55,7 @@
 					}
 
 					else{
-				        $var1 = "INSERT INTO users_data1(phone, location, bio, name, uuid, btaddress, dob, sex, Image) VALUES('$phone', '$location', '$bio', '$name', '$uuid', '$btaddress', '$dob', '$sex', '$image')";
+				        $var1 = "INSERT INTO users_data1(uuid, Username, Profession, dob, Age, Image) VALUES('$uuid', '$username', '$profession','$dob', '$age', '$image')";
 						$var2 = $cn->query($var1);
 
 						// echo !$var2 ?  $cn->error :  '<br/><h1>SUCCESS</h1>';
@@ -67,11 +64,11 @@
 					if($var2){
 						http_response_code(201);
 
-						$arr = ['Name'=>"$name",'Bio'=>"$bio", 'Sex'=>"$sex"];
+						$arr = ['Username'=>"$username",'Profession'=>"$profession", 'Age'=>"$age"];
 						// echo json_encode($arr);
 
 				        // tell the user
-				        echo json_encode(array("message" => "User '$name' has been created."));
+				        echo json_encode(array("message" => "User '$username' has been created."));
 						}
 
 			        break;
